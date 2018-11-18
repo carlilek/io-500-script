@@ -18,3 +18,6 @@ The intended usage is:
  - adjust the generated io-500.sh file to include the job scheduler information on top
  - run the io-500.sh (without adding further parameters to the job submission manually)
  - run io-500-score.sh [job-output] to compute the score
+
+You may use the clean-io-500.sh to remove the created temporary data in parallel.
+Run it with the same scheduler arguments as the io-500.sh.
