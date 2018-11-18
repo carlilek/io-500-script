@@ -22,10 +22,11 @@ MDTEST_EASY="-n 250 -u -L" # you may change -u and -L
 MDTEST_HARD_COUNT="10"
 
 
-echo "#!/bin/bash" > $OUT_FILE
-chmod 755 $OUT_FILE
-
 (
+echo "#!/bin/bash"
+echo "# Modify this script to include everything needed to startup with your batch system"
+echo "#QSUB|PBS -n XX"
+echo ""
 echo "echo [IOR EASY WRITE]"
 echo "mkdir -p $RESULTS_DIR/ior_easy $RESULTS_DIR/ior_easy $RESULTS_DIR/ior_hard $RESULTS_DIR/mdt_hard $RESULTS_DIR/mdt_easy $RESULTS_DIR/pfind_results"
 echo "# Please add here additional scripts to setup/prepare the directories like lfs setstripe"
@@ -65,6 +66,8 @@ echo $MPIRUN $BIN/mdtest -E -t -F -w 3901 -e 3901 -d $RESULTS_DIR/mdt_hard -n $M
 
 echo "echo [MDTEST HARD DELETE]"
 echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $RESULTS_DIR/mdt_hard -n $MDTEST_HARD_COUNT -x $RESULTS_DIR/mdt_hard-stonewall
-)  >> $OUT_FILE
+)  > $OUT_FILE
+
+chmod 755 $OUT_FILE
 
 echo "IO-500 Script created in \"$OUT_FILE\""
