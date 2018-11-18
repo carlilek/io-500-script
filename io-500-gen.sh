@@ -12,16 +12,18 @@ MPIRUN="mpirun -np 2"
 
 # For a small testing run, use, e.g.,
 IOR_EASY_ARGS="-t 2048k -b 2m -F"
-IOR_HARD_COUNT="100"
+IOR_HARD_IO_COUNT="100"
+IOR_HARD_EXTRA_ARGS="" # Add here extra args like -a API; note that may lead to invalid results!
 MDTEST_EASY="-n 250 -u -L" # you may change -u and -L
-MDTEST_HARD_COUNT="10"
+MDTEST_HARD_FILE_COUNT="10"
+MDTEST_HARD_EXTRA_ARGS="" # Add here extra args like -a API; note that may lead to invalid results!
 
 # For a full run, you may start with these parameters
 STONEWALL_TIMER=300 # set to 0 to disable
 #IOR_EASY_ARGS="-t 2m -b 2000g -F"
-#IOR_HARD_COUNT="100000"
+#IOR_HARD_IO_COUNT="100000"
 #MDTEST_EASY="-n 25000000 -u -L" # you may change -u and -L
-#MDTEST_HARD_COUNT="10000"
+#MDTEST_HARD_FILE_COUNT="10000"
 
 # If you want to change the find command to a specific version, check below.
 # For most cases, you should not need to modify anything beyond this point.
@@ -38,15 +40,15 @@ echo "# Please add here additional scripts to setup/prepare the directories like
 echo $MPIRUN $BIN/ior -w -C -Q 1 -g -G 27 -k -e $IOR_EASY_ARGS -o $DATA_DIR/ior_easy/ior_file_easy -O stoneWallingStatusFile=$DATA_DIR/ior_easy/stonewall -O stoneWallingWearOut=1 -D $STONEWALL_TIMER
 
 echo "echo [MDTEST EASY WRITE]"
-echo $MPIRUN $BIN/mdtest -C -F -d $DATA_DIR/mdt_easy $MDTEST_EASY -x $DATA_DIR/mdt_easy-stonewall -W $STONEWALL_TIMER
+echo $MPIRUN $BIN/mdtest -C -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall -W $STONEWALL_TIMER
 
 echo "touch $DATA_DIR/timestampfile"
 
 echo "echo [IOR HARD WRITE]"
-echo $MPIRUN $BIN/ior -w -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -s $IOR_HARD_COUNT  -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall -O stoneWallingWearOut=1 -D $STONEWALL_TIMER
+echo $MPIRUN $BIN/ior -w -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -s $IOR_HARD_IO_COUNT $IOR_HARD_EXTRA_ARGS  -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall -O stoneWallingWearOut=1 -D $STONEWALL_TIMER
 
 echo "echo [MDTEST HARD WRITE]"
-echo $MPIRUN $BIN/mdtest -C -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_COUNT -x $DATA_DIR/mdt_hard-stonewall  -W $STONEWALL_TIMER
+echo $MPIRUN $BIN/mdtest -C -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall  -W $STONEWALL_TIMER
 
 echo "echo [PFIND EASY]"
 echo "# You may change the pfind command!"
@@ -56,22 +58,24 @@ echo "echo [IOR EASY READ]"
 echo $MPIRUN $BIN/ior -r -R -C -Q 1 -g -G 27 -k -e $IOR_EASY_ARGS -o $DATA_DIR/ior_easy/ior_file_easy -O stoneWallingStatusFile=$DATA_DIR/ior_easy/stonewall
 
 echo "echo [MDTEST EASY STAT]"
-echo $MPIRUN $BIN/mdtest -T -F -d $DATA_DIR/mdt_easy $MDTEST_EASY -x $DATA_DIR/mdt_easy-stonewall
+echo $MPIRUN $BIN/mdtest -T -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall
 
 echo "echo [IOR HARD READ]"
-echo $MPIRUN $BIN/ior -r -R -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -s $IOR_HARD_COUNT  -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall
+echo $MPIRUN $BIN/ior -r -R -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -s $IOR_HARD_IO_COUNT $IOR_HARD_EXTRA_ARGS  -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall
 
 echo "echo [MDTEST HARD STAT]"
-echo $MPIRUN $BIN/mdtest -T -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_COUNT -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest -T -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
 
 echo "echo [MDTEST EASY DELETE]"
-echo $MPIRUN $BIN/mdtest -r -F -d $DATA_DIR/mdt_easy $MDTEST_EASY -x $DATA_DIR/mdt_easy-stonewall
+echo $MPIRUN $BIN/mdtest -r -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall
 
 echo "echo [MDTEST HARD READ]"
-echo $MPIRUN $BIN/mdtest -E -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_COUNT -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest -E -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
 
 echo "echo [MDTEST HARD DELETE]"
-echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_COUNT -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
+
+echo "echo [IO-500 COMPLETED] Now use io-500-score.sh to compute the score!"
 )  > $OUT_SCRIPT_FILE
 
 chmod 755 $OUT_SCRIPT_FILE
@@ -80,8 +84,8 @@ CLEANUP_FILE=clean-$OUT_SCRIPT_FILE
 (
 echo "#!/bin/bash"
 echo "# This script removes the data, run it with the same parameters as the original script"
-echo $MPIRUN $BIN/mdtest -r -F -d $DATA_DIR/mdt_easy $MDTEST_EASY -x $DATA_DIR/mdt_easy-stonewall
-echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_COUNT -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest -r -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall
+echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
 echo rm -rf $DATA_DIR/ior_easy $DATA_DIR/ior_easy $DATA_DIR/ior_hard $DATA_DIR/mdt_hard $DATA_DIR/mdt_easy $DATA_DIR/pfind_results $DATA_DIR/timestampfile $DATA_DIR/mdt_easy-stonewall $DATA_DIR/mdt_hard-stonewall
 ) > $CLEANUP_FILE
 chmod 755 $CLEANUP_FILE
