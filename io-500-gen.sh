@@ -30,7 +30,7 @@ STONEWALL_TIMER=300 # set to 0 to disable
 
 OUT_SCRIPT_FILE=io-500.sh
 (
-echo "#!/bin/bash"
+echo "#!/bin/bash -e"
 echo "# Modify this script to include everything needed to startup with your batch system"
 echo "#QSUB|PBS -n XX"
 echo ""
