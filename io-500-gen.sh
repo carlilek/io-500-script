@@ -10,6 +10,10 @@ DATA_DIR="./io500-datadir/"
 # The command to execute a parallel job
 MPIRUN="mpirun -np 2"
 
+# Before you change parameters, familarize with the rules:
+# https://www.vi4io.org/io500/about/start
+# check also the specific challenge you want to submit.
+
 # For a small testing run, use, e.g.,
 IOR_EASY_ARGS="-t 2048k -b 2m -F"
 IOR_HARD_IO_COUNT="100"
