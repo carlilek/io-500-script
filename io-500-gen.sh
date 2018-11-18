@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# The purpose of this script is to generate an io-500.sh
+# The purpose of this script is to generate an io-500.sh and clean-io-500.sh
 # You may then edit *certain* aspects of the generated io-500.sh
 # Also modify that script to contain the batch submission code!
 
@@ -20,7 +20,6 @@ IOR_EASY_ARGS="-t 2048k -b 2m -F"
 IOR_HARD_COUNT="100"
 MDTEST_EASY="-n 250 -u -L" # you may change -u and -L
 MDTEST_HARD_COUNT="10"
-
 
 (
 echo "#!/bin/bash"
@@ -70,4 +69,14 @@ echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $RESULTS_DIR/mdt_hard -n $M
 
 chmod 755 $OUT_FILE
 
-echo "IO-500 Script created in \"$OUT_FILE\""
+CLEANUP_FILE=clean-$OUT_FILE
+(
+echo "#!/bin/bash"
+echo "# This script removes the data, run it with the same parameters as the original script"
+echo $MPIRUN $BIN/mdtest -r -F -d $RESULTS_DIR/mdt_easy $MDTEST_EASY -x $RESULTS_DIR/mdt_easy-stonewall
+echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $RESULTS_DIR/mdt_hard -n $MDTEST_HARD_COUNT -x $RESULTS_DIR/mdt_hard-stonewall
+echo rm -rf $RESULTS_DIR/ior_easy $RESULTS_DIR/ior_easy $RESULTS_DIR/ior_hard $RESULTS_DIR/mdt_hard $RESULTS_DIR/mdt_easy $RESULTS_DIR/pfind_results $RESULTS_DIR/timestampfile
+) > $CLEANUP_FILE
+chmod 755 $CLEANUP_FILE
+
+echo "IO-500 Script created in \"$OUT_FILE\" and \"$CLEANUP_FILE\""
