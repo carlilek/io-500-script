@@ -29,6 +29,14 @@ STONEWALL_TIMER=300 # set to 0 to disable
 #MDTEST_EASY="-n 25000000 -u -L" # you may change -u and -L
 #MDTEST_HARD_FILE_COUNT="10000"
 
+# Information fields; these provide information about your system hardware
+# Use https://vi4io.org/io500-info-creator/ to generate information about your hardware
+# that you want to include publicly!
+function io500_info(){
+  # replace this body with the generated text, e.g.
+  echo io500_info_institution='""'
+}
+
 # If you want to change the find command to a specific version, check below.
 # For most cases, you should not need to modify anything beyond this point.
 
@@ -38,6 +46,8 @@ ECHO="echo -e \\necho"
 echo "#!/bin/bash -e"
 echo "# Modify this script to include everything needed to startup with your batch system"
 echo "#QSUB|PBS -n XX"
+$ECHO
+io500_info # add the info fields
 $ECHO
 echo "echo -n \"[START TIME] \""
 echo "date --rfc-3339=seconds"

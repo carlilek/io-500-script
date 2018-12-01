@@ -1,11 +1,16 @@
 # README
 
 This is a new version of the IO-500 suite.
+It is easy to use, minimal during the execution to prevent errors, and easy to debug.
+To achieve these goals, it splits the execution into phases:
+ * A generation phase able to check for errors that creates a hard-coded run-script without branches
+ * The run-script can then be inspected / further modified to include *allowed* tuning settings and the batch-submission commands
+ * An analysis phase which parses the output of the execution, checks the validity of the result and computes the scores
 
 # Files
 
-io-500-gen.sh: This file must be adjusted and generates an io-500.sh that can be easily adjusted for execution.
-io-500-score.sh: This file parses the output of the io-500.sh, checks the correctness and computes the score.
+  * io-500-gen.sh: This file must be adjusted and generates an io-500.sh that can be easily adjusted for execution.
+  * io-500-score.sh: This file parses the output of the io-500.sh, checks the correctness and computes the score.
 
 # Usage
 
