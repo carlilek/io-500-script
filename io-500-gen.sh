@@ -8,7 +8,7 @@ BIN="./bin/"
 # The location of the generated output data
 DATA_DIR="./io500-datadir/"
 # The command to execute a parallel job
-MPIRUN="mpirun -np 2"
+MPIRUN="mpiexec -np 2"
 
 # Before you change parameters, familarize with the rules:
 # https://www.vi4io.org/io500/about/start
@@ -23,7 +23,7 @@ if $SIMPLE_TEST; then
   IOR_HARD_IO_COUNT="100"
   IOR_HARD_EXTRA_ARGS=""
   MDTEST_EASY="-n 250 -u -L"
-  MDTEST_HARD_FILE_COUNT="10"
+  MDTEST_HARD_FILE_COUNT="150"
   MDTEST_HARD_EXTRA_ARGS=""
 else # These are parameters for a full IO-500 test run
   echo "Generating code for a production run"
