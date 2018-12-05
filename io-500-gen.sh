@@ -79,7 +79,7 @@ echo $MPIRUN $BIN/mdtest -C -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTE
 $NEWLINE
 echo "echo [PFIND EASY]"
 echo "# You may change the pfind command!"
-echo $MPIRUN $BIN/pfind $DATA_DIR -newer $DATA_DIR/timestampfile -size 3901c -name *01* -s $STONEWALL_TIMER -r $DATA_DIR/pfind_results
+echo $MPIRUN $BIN/pfind $DATA_DIR -newer $DATA_DIR/timestampfile -size 3901c -name *01* -s $STONEWALL_TIMER -C -P -D rates #-r $DATA_DIR/pfind_results 
 $NEWLINE
 echo "echo [IOR EASY READ]"
 echo $MPIRUN $BIN/ior -r -R -C -Q 1 -g -G 27 -k -e $IOR_EASY_ARGS -o $DATA_DIR/ior_easy/ior_file_easy -O stoneWallingStatusFile=$DATA_DIR/ior_easy/stonewall
