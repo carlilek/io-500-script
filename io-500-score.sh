@@ -66,7 +66,7 @@ function getMD(){
 
 function getFind(){
   section "$1" "$2"
-  data=$(grep "[DONE]" $TMP | awk '{print $3}')
+  data=$(grep "\[DONE\]" $TMP | awk '{print $3}')
   if [[ "$data" == "" ]] ; then
     echo "Could not parse section $1"
     exit 1
