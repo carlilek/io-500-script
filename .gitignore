@@ -52,3 +52,4 @@ Mkfile.old
 dkms.conf
 
 io-500-clean.sh
+io-500.sh
