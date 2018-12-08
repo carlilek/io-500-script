@@ -70,11 +70,11 @@ io500_prepare
 $NEWLINE
 echo "echo [IOR EASY WRITE]"
 $TIME
-echo $MPIRUN $BIN/ior -w -C -Q 1 -g -G 27 -k -e $IOR_EASY_ARGS -o $DATA_DIR/ior_easy/ior_file_easy -O stoneWallingStatusFile=$DATA_DIR/ior_easy/stonewall -O stoneWallingWearOut=1 -D $STONEWALL_TIMER
+echo $MPIRUN $BIN/ior $IOR_EASY_ARGS -w -C -Q 1 -g -G 27 -k -e -o $DATA_DIR/ior_easy/ior_file_easy -O stoneWallingStatusFile=$DATA_DIR/ior_easy/stonewall -O stoneWallingWearOut=1 -D $STONEWALL_TIMER
 $NEWLINE
 echo "echo [MDTEST EASY WRITE]"
 $TIME
-echo $MPIRUN $BIN/mdtest -C -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall -W $STONEWALL_TIMER
+echo $MPIRUN $BIN/mdtest $MDTEST_EASY -C -F -d $DATA_DIR/mdt_easy -x $DATA_DIR/mdt_easy-stonewall -W $STONEWALL_TIMER
 $NEWLINE
 echo "echo [CREATING TIMESTAMP]"
 $TIME
@@ -82,11 +82,11 @@ echo "touch $DATA_DIR/timestampfile"
 $NEWLINE
 echo "echo [IOR HARD WRITE]"
 $TIME
-echo $MPIRUN $BIN/ior -w -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -s $IOR_HARD_IO_COUNT $IOR_HARD_EXTRA_ARGS  -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall -O stoneWallingWearOut=1 -D $STONEWALL_TIMER
+echo $MPIRUN $BIN/ior $IOR_HARD_EXTRA_ARGS -s $IOR_HARD_IO_COUNT -w -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall -O stoneWallingWearOut=1 -D $STONEWALL_TIMER
 $NEWLINE
 echo "echo [MDTEST HARD WRITE]"
 $TIME
-echo $MPIRUN $BIN/mdtest -C -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall  -W $STONEWALL_TIMER
+echo $MPIRUN $BIN/mdtest $MDTEST_HARD_EXTRA_ARGS -n $MDTEST_HARD_FILE_COUNT -C -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -x $DATA_DIR/mdt_hard-stonewall  -W $STONEWALL_TIMER
 $NEWLINE
 
 echo "echo [PFIND EASY]"
@@ -103,31 +103,31 @@ $TIME
 $NEWLINE
 echo "echo [IOR EASY READ]"
 $TIME
-echo $MPIRUN $BIN/ior -r -R -C -Q 1 -g -G 27 -k -e $IOR_EASY_ARGS -o $DATA_DIR/ior_easy/ior_file_easy -O stoneWallingStatusFile=$DATA_DIR/ior_easy/stonewall
+echo $MPIRUN $BIN/ior $IOR_EASY_ARGS -r -R -C -Q 1 -g -G 27 -k -e -o $DATA_DIR/ior_easy/ior_file_easy -O stoneWallingStatusFile=$DATA_DIR/ior_easy/stonewall
 $NEWLINE
 echo "echo [MDTEST EASY STAT]"
 $TIME
-echo $MPIRUN $BIN/mdtest -T -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall
+echo $MPIRUN $BIN/mdtest $MDTEST_EASY -T -F -d $DATA_DIR/mdt_easy -x $DATA_DIR/mdt_easy-stonewall
 $NEWLINE
 echo "echo [IOR HARD READ]"
 $TIME
-echo $MPIRUN $BIN/ior -r -R -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -s $IOR_HARD_IO_COUNT $IOR_HARD_EXTRA_ARGS  -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall
+echo $MPIRUN $BIN/ior $IOR_HARD_EXTRA_ARGS -s $IOR_HARD_IO_COUNT -r -R -C -Q 1 -g -G 27 -k -e -t 47008 -b 47008 -s $IOR_HARD_IO_COUNT $IOR_HARD_EXTRA_ARGS  -o $DATA_DIR/ior_hard/IOR_file -O stoneWallingStatusFile=$DATA_DIR/ior_hard/stonewall
 $NEWLINE
 echo "echo [MDTEST HARD STAT]"
 $TIME
-echo $MPIRUN $BIN/mdtest -T -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest $MDTEST_HARD_EXTRA_ARGS -n $MDTEST_HARD_FILE_COUNT -T -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -x $DATA_DIR/mdt_hard-stonewall
 $NEWLINE
 echo "echo [MDTEST EASY DELETE]"
 $TIME
-echo $MPIRUN $BIN/mdtest -r -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall
+echo $MPIRUN $BIN/mdtest $MDTEST_EASY -r -F -d $DATA_DIR/mdt_easy  -x $DATA_DIR/mdt_easy-stonewall
 $NEWLINE
 echo "echo [MDTEST HARD READ]"
 $TIME
-echo $MPIRUN $BIN/mdtest -E -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest $MDTEST_HARD_EXTRA_ARGS -n $MDTEST_HARD_FILE_COUNT -E -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard  -x $DATA_DIR/mdt_hard-stonewall
 $NEWLINE
 echo "echo [MDTEST HARD DELETE]"
 $TIME
-echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest $MDTEST_HARD_EXTRA_ARGS -n $MDTEST_HARD_FILE_COUNT -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -x $DATA_DIR/mdt_hard-stonewall
 $NEWLINE
 echo "echo Deleting IO-500 $DATA_DIR"
 $TIME
@@ -142,8 +142,8 @@ chmod 755 $CONF-io-500.sh
 (
 echo "#!/bin/bash"
 echo "# This script removes the data, run it with the same parameters as the original script"
-echo $MPIRUN $BIN/mdtest -r -F -d $DATA_DIR/mdt_easy $MDTEST_EASY $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_easy-stonewall
-echo $MPIRUN $BIN/mdtest -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT $MDTEST_HARD_EXTRA_ARGS -x $DATA_DIR/mdt_hard-stonewall
+echo $MPIRUN $BIN/mdtest $MDTEST_EASY -r -F -d $DATA_DIR/mdt_easy -x $DATA_DIR/mdt_easy-stonewall
+echo $MPIRUN $BIN/mdtest $MDTEST_HARD_EXTRA_ARGS -r -t -F -w 3901 -e 3901 -d $DATA_DIR/mdt_hard -n $MDTEST_HARD_FILE_COUNT -x $DATA_DIR/mdt_hard-stonewall
 
 ) > $CONF-io-500-clean.sh
 chmod 755 $CONF-io-500-clean.sh
