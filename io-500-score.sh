@@ -39,12 +39,12 @@ function getIOR(){
   section "$1" "$2"
   REP=$(cat $TMP | grep "^repetitions" | sed "s/.*: //")
   if [[ $REP != 1 ]] ; then
-    echo "The number of repeats must be 1 for IOR!"
+    echo "The number of repeats must be 1 for IOR!"  >&2
     exit 1
   fi
   data=$(grep "^$3"  $TMP | tail -n 1 | awk '{print $3/1024}')
   if [[ "$data" == "" ]] ; then
-    echo "Could not parse section $1"
+    echo "Could not parse section $1" >&2
     exit 1
   fi
   time=$(grep "^$3"  $TMP | head -n 1 | awk '{print $8}')
@@ -57,7 +57,7 @@ function getMD(){
   section "$1" "$2"
   data=$(grep "$3" $TMP | awk '{print $4/1000}')
   if [[ "$data" == "" ]] ; then
-    echo "Could not parse section $1"
+    echo "Could not parse section $1"  >&2
     exit 1
   fi
   print_iops "$1" "$data"
@@ -68,7 +68,7 @@ function getFind(){
   section "$1" "$2"
   data=$(grep "\[DONE\]" $TMP | awk '{print $3}')
   if [[ "$data" == "" ]] ; then
-    echo "Could not parse section $1"
+    echo "Could not parse section $1"  >&2
     exit 1
   fi
   print_iops "$1" "$data"

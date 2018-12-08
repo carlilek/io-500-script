@@ -9,7 +9,10 @@ To achieve these goals, it splits the execution into phases:
 
 # Files
 
-  * io-500-gen.sh: This file must be adjusted and generates an io-500.sh that can be easily adjusted for execution.
+  * io-500-gen.sh: This file generates an io-500.sh for execution based on a configuration file. Run it with: ./io-500-gen.sh <CONFIG>
+  * Configuration files:
+    - config-normal.sh: A regular configuration file using stonewalling and large amounts of data.
+    - config-test.sh: A simple configuration useful for the first steps with IO-500.
   * io-500-score.sh: This file parses the output of the io-500.sh, checks the correctness and computes the score.
 
 # Usage
