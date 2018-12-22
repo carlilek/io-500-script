@@ -4,8 +4,7 @@ echo "Computing the IO-500 score (use io-500-validate.py to run extensive checks
 set -euo pipefail   # give bash better error handling.
 export LC_NUMERIC=C  # prevents printf errors
 
-
-if [[ "$1" == "" ]] ; then
+if [[ $# -eq 0 ]]; then
   echo "Synopsis: $0 <io500-standard-output>"
   exit 1
 fi
