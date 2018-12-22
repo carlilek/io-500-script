@@ -9,6 +9,7 @@ To achieve these goals, it splits the execution into phases:
 
 # Files
 
+  * prepare.sh: This file downloads all the necessary software packages and attempts to build them.
   * io-500-gen.sh: This file generates an io-500.sh for execution based on a configuration file. Run it with: ./io-500-gen.sh <CONFIG>
   * Configuration files:
     - config-normal.sh: A regular configuration file using stonewalling and large amounts of data.
