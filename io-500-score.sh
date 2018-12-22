@@ -5,16 +5,18 @@ set -euo pipefail   # give bash better error handling.
 export LC_NUMERIC=C  # prevents printf errors
 
 
-FILE="$1"
-if [[ "$FILE" == "" ]] ; then
+if [[ "$1" == "" ]] ; then
   echo "Synopsis: $0 <io500-standard-output>"
   exit 1
 fi
+
+FILE="$1"
 
 if [[ ! -r "$FILE" ]] ; then
   echo "Can't read from file \"$FILE\""
   exit 1
 fi
+
 
 TMP=$(mktemp)
 if [[ ! -r "$TMP" ]] ; then
