@@ -18,14 +18,17 @@ To achieve these goals, it splits the execution into phases:
 # Usage
 
 The ./io-500-gen.sh script generates an io-500.sh file with all parameters hard-coded.
-That makes it easier to change the behavior and test performance by, e.g., removing phases.
+That makes it easier to spot errors, change the behavior and test performance by, e.g., removing phases.
 
 The intended usage is:
- - adjust the core parameters in io-500-gen.sh
- - run io-500-gen.sh, check the generated io-500.sh
- - adjust the generated io-500.sh file to include the job scheduler information on top
- - run the io-500.sh (without adding further parameters to the job submission manually)
- - run io-500-score.sh [job-output] to compute the score
+ - copy an existing configuration file (see the existing templates in config*) into the existing top-level directory as <CONFIG>.
+ - modify <CONFIG>
+ - run io-500-gen.sh <CONFIG>, check the generated <CONFIG>-io-500.sh
+   there should be no need to modify the generated file further!
+ - submit the generated file to your batch scheduler
+   (there should be no need to add further parameters to the job submission manually)
+ - after the run:
+   - run io-500-score.sh [job-output] to compute the score
 
-You may use the clean-io-500.sh to remove the created temporary data in parallel.
-Run it with the same scheduler arguments as the io-500.sh.
+In case of an error, you may use the <CONFIG>-clean-io-500.sh to remove the created temporary data using a parallel execution.
+It must be run it with the same scheduler arguments as <CONFIG>-io-500.sh.
